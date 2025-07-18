@@ -45,17 +45,24 @@ class WhoisLookupAPIView(APIView):
         whois_data = data.get("WhoisRecord", {})
         contact_data = whois_data.get("contactEmail") or whois_data.get("registryData", {}).get("contactEmail")
 
+        name_servers = whois_data.get("nameServers", {})
+        hostnames = name_servers.get("hostNames", []) if isinstance(name_servers, dict) else []
+
         domain_section = {
             "Domain Name": whois_data.get("domainName"),
             "Registrar": whois_data.get("registrarName"),
             "Registration Date": whois_data.get("createdDate"),
             "Expiration Date": whois_data.get("expiresDate"),
-            "Estimated Domain Age": whois_data.get("estimatedDomainAge"),
+            "Estimated Domain Age (days)": whois_data.get("estimatedDomainAge"),
             "Hostnames": [
                 hostname if len(hostname) <= 25 else hostname[:22] + "..."
-                for hostname in whois_data.get("hostNames", []) or []
+                for hostname in hostnames
             ]
         }
+
+
+        if not whois_data.get("createdDate"):
+            return Response({'error':'Domain not registered or lookup returned no data.'}, status=status.HTTP_204_NO_CONTENT)
 
         contact_section = {
             "Registrant Name": whois_data.get("registrant", {}).get("name"),
