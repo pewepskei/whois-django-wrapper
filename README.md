@@ -15,7 +15,7 @@ A lightweight Django REST API that wraps the **WhoisXML API**, making it easy to
 1. **Clone the repo**
 
    ```bash
-   git clone https://github.com/your‑username/whois‑lookup‑django‑wrapper.git
+   git clone https://github.com/pewepskei/whois‑lookup‑django‑wrapper.git
    cd whois‑lookup‑django‑wrapper
    ```
 
