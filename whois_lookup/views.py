@@ -54,10 +54,7 @@ class WhoisLookupAPIView(APIView):
             "Registration Date": whois_data.get("createdDate"),
             "Expiration Date": whois_data.get("expiresDate"),
             "Estimated Domain Age (days)": whois_data.get("estimatedDomainAge"),
-            "Hostnames": [
-                hostname if len(hostname) <= 25 else hostname[:22] + "..."
-                for hostname in hostnames
-            ]
+            "Hostnames": hostnames
         }
 
 
